@@ -3,7 +3,7 @@
   "name": "Systemex Ecosystem Token",
   "symbol": "SYSTEMEX",
   "description": "Systemex ecosystem token for real estate projects and AI agents. Official token for learning, development, bots, and community tools.",
-  "image": "https://i.imgur.com/RDJ9Nkz.jpeg",  
+  "image": "https://raw.githubusercontent.com/exeandino/systemex/main/systemex.png",
   "external_url": "https://systemex.com.ar",
   "extensions": {
     "website": "https://systemex.com.ar",
@@ -18,8 +18,8 @@
   "properties": {
     "files": [
       {
-        "uri": "https://i.imgur.com/RDJ9Nkz.jpeg",
-        "type": "image/jpeg"  
+        "uri": "https://raw.githubusercontent.com/exeandino/systemex/main/systemex.png",
+        "type": "image/png"
       }
     ],
     "category": "image"
