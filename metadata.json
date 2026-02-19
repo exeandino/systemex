@@ -1,27 +1,17 @@
 {
-  "schema_version": "1.0.0",
-  "name": "Systemex Ecosystem Token",
-  "symbol": "SYSTEMEX",
-  "description": "Systemex ecosystem token for real estate projects and AI agents. Official token for learning, development, bots, and community tools.",
-  "image": "https://github.com/exeandino/systemex/blob/main/systemex.png",  
-  "external_url": "https://systemex.com.ar",
-  "extensions": {
-    "website": "https://systemex.com.ar",
-    "twitter": "https://x.com/ExeAndino"
-  },
-  "attributes": [
-    {
-      "trait_type": "Type",
-      "value": "Utility"
-    }
-  ],
-  "properties": {
-    "files": [
-      {
-        "uri": "https://github.com/exeandino/systemex/blob/main/systemex.png",
-        "type": "image/png"  
-      }
-    ],
-    "category": "image"
-  }
+  "name": "Systemex Ecosystem Token",
+  "symbol": "SYSTEMEX",
+  "description": "Ecosystem token for Systemex projects in the real estate sector and AI agents.",
+  "image": "https://raw.githubusercontent.com/exeandino/systemex/main/systemex.png",
+  "external_url": "",
+  "attributes": [],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://raw.githubusercontent.com/exeandino/systemex/main/systemex.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  }
 }
