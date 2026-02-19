@@ -1,2 +1,5 @@
-# Systemex
-Systemex ecosystem token for real estate projects and AI agents. Official token for learning, development, bots, and community tools.
+Systemex is a blockchain platform built on Solana that integrates three business verticals into a single tokenized ecosystem: tokenization of real world assets (RWA) in real estate, access to online courses and education, and e-commerce. The native token **SYSTEMEX** (ticker: **SYSTEMEX**) is the unit of value connecting all layers of the ecosystem.
+
+The platform operates under a dual-benefit model: holders receive passive returns derived from tokenized real estate assets and, simultaneously, access to discounts, memberships, and governance over the educational and commercial platform. This differentiates SYSTEMEX from purely speculative tokens, endowing it with real utility and tangible value flows from day one.
+
+Argentina is experiencing a historic moment for real asset tokenization: the CNV approved the complete regime in December 2025, the Latin American RWA market is projected to exceed **USD 10 billion** in 2026. Systemex is positioned to capture this opportunity from Argentina to the world.
