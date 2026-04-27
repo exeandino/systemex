@@ -1,5 +1,35 @@
-Systemex is a blockchain platform built on Solana that integrates three business verticals into a single tokenized ecosystem: tokenization of real world assets (RWA) in real estate, access to online courses and education, and e-commerce. The native token **SYSTEMEX** (ticker: **SYSTEMEX**) is the unit of value connecting all layers of the ecosystem.
+# SYSTEMEX - Token del Ecosistema
 
-The platform operates under a dual-benefit model: holders receive passive returns derived from tokenized real estate assets and, simultaneously, access to discounts, memberships, and governance over the educational and commercial platform. This differentiates SYSTEMEX from purely speculative tokens, endowing it with real utility and tangible value flows from day one.
+**Plataforma blockchain en Solana** que integra:
+- Tokenización inmobiliaria (RWA)
+- Educación online
+- E-commerce
 
-Argentina is experiencing a historic moment for real asset tokenization: the CNV approved the complete regime in December 2025, the Latin American RWA market is projected to exceed **USD 10 billion** in 2026. Systemex is positioned to capture this opportunity from Argentina to the world.
+**Token**: SYSTEMEX  
+**Supply Total**: 1.000.000.000  
+**Precio objetivo**: USD 0,0001  
+**Web**: [systemex.com.ar](https://systemex.com.ar)
+
+## Características Principales
+- Modelo **Dual-Benefit**: Rentabilidad pasiva (RWA) + Utilidad real (descuentos, membresías, gobernanza)
+- Totalmente en **Solana** (velocidad y bajo costo)
+- Enfoque regulatorio Argentina (CNV - Diciembre 2025)
+
+## Estructura del Proyecto
+- `wallets.md` → Wallets oficiales
+- `metadata.json` → Metadata del token
+- `index.html` → Landing page básica
+- `Systemex_Whitepaper*` → Documentación completa
+
+## Wallets Fase 1
+Ver detalle completo en **[wallets.md](wallets.md)**
+
+## Próximos Pasos
+1. Minteo del token
+2. Creación del pool en Raydium
+3. Lanzamiento del dashboard en systemex.com.ar
+4. Primeros activos inmobiliarios tokenizados
+
+---
+
+**Made with ❤️ in Argentina**

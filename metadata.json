@@ -1,13 +1,12 @@
 {
   "name": "Systemex",
   "symbol": "SYSTEMEX",
-  "description": "Systemex es la plataforma blockchain que integra tokenización inmobiliaria (RWA), educación online y e-commerce en un solo ecosistema. Utilidad real + rentabilidad pasiva.",
+  "description": "Systemex es la plataforma blockchain que integra tokenización inmobiliaria (RWA), educación online y e-commerce en un solo ecosistema. Utilidad real + rentabilidad pasiva desde día 1.",
   "image": "https://raw.githubusercontent.com/exeandino/systemex/main/systemex.png",
   "external_url": "https://systemex.com.ar",
   "extensions": {
     "website": "https://systemex.com.ar",
-    "twitter": "https://x.com/ExeAndino",
-    "telegram": ""
+    "twitter": "https://x.com/ExeAndino"
   },
   "attributes": [
     {
