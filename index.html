@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SYSTEMEX — Real World Asset Tokenization on Solana</title>
+<meta name="description" content="Systemex is the blockchain platform tokenizing real estate, education and e-commerce on Solana. Invest from USD 1 in real world assets.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #03060f;
+  --bg2:      #070c1a;
+  --bg3:      #0b1225;
+  --surf:     #0f1830;
+  --surf2:    #152040;
+  --line:     rgba(80,140,255,0.1);
+  --line2:    rgba(80,140,255,0.22);
+  --blue:     #1d5cff;
+  --blue2:    #4d84ff;
+  --cyan:     #00d4ff;
+  --green:    #00e5a0;
+  --gold:     #ffb800;
+  --red:      #ff4d6d;
+  --txt:      #dde4f0;
+  --txt2:     #8896b3;
+  --txt3:     #4a5878;
+  --glow-b:   rgba(29,92,255,0.35);
+  --glow-c:   rgba(0,212,255,0.25);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9998;
+}
+
+.grid-bg {
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(29,92,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(29,92,255,0.035) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+}
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 3rem;
+  background: rgba(3,6,15,0.85);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--line);
+}
+
+.logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem; letter-spacing: 0.2em;
+  color: #fff; text-decoration: none;
+  display: flex; align-items: center; gap: 0.7rem;
+}
+
+.logo-pulse {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--cyan); box-shadow: 0 0 14px var(--cyan);
+  animation: blink 2s infinite;
+}
+
+@keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+
+.nav-links { display: flex; gap: 2.2rem; list-style: none; }
+.nav-links a {
+  color: var(--txt2); text-decoration: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem; letter-spacing: 0.1em; transition: color .2s;
+}
+.nav-links a:hover { color: var(--cyan); }
+.nav-btn {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.75rem !important; background: var(--blue) !important;
+  color: #fff !important; padding: .45rem 1.1rem; border-radius: 3px;
+  box-shadow: 0 0 18px var(--glow-b); transition: all .2s !important;
+}
+.nav-btn:hover { box-shadow: 0 0 32px var(--glow-b) !important; color:#fff!important; }
+
+/* HERO */
+.hero {
+  position: relative; min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 9rem 2rem 5rem;
+  overflow: hidden; z-index: 1;
+}
+
+.orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(90px); }
+.orb1 { width:700px;height:700px; background:radial-gradient(circle,rgba(29,92,255,.22) 0%,transparent 70%); top:-120px;left:50%;transform:translateX(-50%); animation:floatC 9s ease-in-out infinite; }
+.orb2 { width:450px;height:450px; background:radial-gradient(circle,rgba(0,212,255,.14) 0%,transparent 70%); bottom:0;right:-80px; animation:floatS 11s ease-in-out infinite; }
+.orb3 { width:350px;height:350px; background:radial-gradient(circle,rgba(0,229,160,.1) 0%,transparent 70%); bottom:80px;left:-60px; animation:floatS 13s ease-in-out infinite reverse; }
+@keyframes floatC { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-28px)} }
+@keyframes floatS { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+
+.badge {
+  display:inline-flex; align-items:center; gap:.5rem;
+  background:rgba(0,212,255,.08); border:1px solid rgba(0,212,255,.25);
+  color:var(--cyan); font-family:'JetBrains Mono',monospace;
+  font-size:.68rem; letter-spacing:.18em;
+  padding:.35rem .9rem; border-radius:2px; margin-bottom:1.8rem;
+  animation: fadeUp .7s ease both;
+}
+.badge::before { content:''; width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);animation:blink 1.5s infinite; }
+
+.hero-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(4rem,10vw,9rem);
+  line-height:.88; letter-spacing:.03em; margin-bottom:1.4rem;
+  animation: fadeUp .7s .1s ease both;
+}
+.t1 { display:block; color:#fff; }
+.t2 {
+  display:block;
+  background:linear-gradient(120deg, var(--blue2) 0%, var(--cyan) 45%, var(--green) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+
+.hero-sub {
+  font-size:1.05rem; color:var(--txt2); max-width:580px;
+  margin:0 auto 2.8rem; line-height:1.75;
+  animation: fadeUp .7s .2s ease both;
+}
+
+.hero-actions { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; animation: fadeUp .7s .3s ease both; }
+
+.btn-p {
+  display:inline-flex; align-items:center; gap:.5rem;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  color:#fff; padding:.85rem 1.9rem; border-radius:3px;
+  text-decoration:none; font-family:'JetBrains Mono',monospace;
+  font-size:.78rem; letter-spacing:.1em; font-weight:700;
+  box-shadow:0 0 28px var(--glow-b); transition:all .3s;
+}
+.btn-p:hover { box-shadow:0 0 48px var(--glow-b); transform:translateY(-2px); }
+
+.btn-s {
+  display:inline-flex; align-items:center; gap:.5rem;
+  background:transparent; color:var(--txt);
+  padding:.85rem 1.9rem; border-radius:3px;
+  text-decoration:none; font-family:'JetBrains Mono',monospace;
+  font-size:.78rem; letter-spacing:.1em;
+  border:1px solid var(--line2); transition:all .3s;
+}
+.btn-s:hover { border-color:var(--cyan); color:var(--cyan); box-shadow:0 0 18px var(--glow-c); }
+
+.hero-stats { display:flex; gap:3rem; justify-content:center; margin-top:4.5rem; flex-wrap:wrap; animation: fadeUp .7s .4s ease both; }
+.stat { text-align:center; position:relative; }
+.stat::after { content:''; position:absolute; right:-1.5rem; top:50%; transform:translateY(-50%); width:1px; height:36px; background:var(--line); }
+.stat:last-child::after { display:none; }
+.stat-n { font-family:'Bebas Neue',sans-serif; font-size:2.2rem; color:#fff; line-height:1; }
+.stat-n span { color:var(--cyan); }
+.stat-l { font-family:'JetBrains Mono',monospace; font-size:.62rem; color:var(--txt3); letter-spacing:.1em; margin-top:.25rem; }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+
+section { position:relative; z-index:1; padding:6rem 2rem; }
+.container { max-width:1100px; margin:0 auto; }
+
+.sec-label {
+  font-family:'JetBrains Mono',monospace; font-size:.68rem;
+  letter-spacing:.22em; color:var(--cyan); text-transform:uppercase;
+  margin-bottom:.7rem; display:flex; align-items:center; gap:.8rem;
+}
+.sec-label::before { content:''; display:inline-block; width:22px; height:1px; background:var(--cyan); }
+.sec-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(2.2rem,4vw,3.4rem); line-height:1; margin-bottom:.9rem; color:#fff; letter-spacing:.04em; }
+.sec-desc { color:var(--txt2); font-size:1rem; line-height:1.75; max-width:580px; }
+
+/* ECOSYSTEM */
+.eco-section { background:var(--bg2); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.eco-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:3rem; }
+
+.eco-card {
+  background:var(--surf); border:1px solid var(--line);
+  border-radius:10px; padding:2rem;
+  transition:all .35s; position:relative; overflow:hidden;
+  text-decoration:none; display:block;
+}
+.eco-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; transition:opacity .3s; opacity:0; }
+.eco-card.re::before  { background:linear-gradient(90deg,var(--blue),var(--cyan)); }
+.eco-card.edu::before { background:linear-gradient(90deg,var(--green),var(--cyan)); }
+.eco-card.ec::before  { background:linear-gradient(90deg,var(--gold),var(--red)); }
+.eco-card:hover { transform:translateY(-6px); border-color:var(--line2); box-shadow:0 24px 48px rgba(0,0,0,.5); }
+.eco-card:hover::before { opacity:1; }
+
+.eco-icon { font-size:2rem; width:56px;height:56px; display:flex; align-items:center; justify-content:center; border-radius:12px; margin-bottom:1.2rem; }
+.eco-card.re  .eco-icon { background:rgba(29,92,255,.15); }
+.eco-card.edu .eco-icon { background:rgba(0,229,160,.12); }
+.eco-card.ec  .eco-icon { background:rgba(255,184,0,.12); }
+
+.eco-tag { font-family:'JetBrains Mono',monospace; font-size:.6rem; letter-spacing:.15em; padding:.2rem .6rem; border-radius:2px; margin-bottom:.9rem; display:inline-block; }
+.eco-card.re  .eco-tag { background:rgba(29,92,255,.15); color:var(--blue2); border:1px solid rgba(29,92,255,.25); }
+.eco-card.edu .eco-tag { background:rgba(0,229,160,.1); color:var(--green); border:1px solid rgba(0,229,160,.25); }
+.eco-card.ec  .eco-tag { background:rgba(255,184,0,.1); color:var(--gold); border:1px solid rgba(255,184,0,.25); }
+
+.eco-name { font-family:'Bebas Neue',sans-serif; font-size:1.5rem; letter-spacing:.06em; color:#fff; margin-bottom:.5rem; }
+.eco-desc { font-size:.85rem; color:var(--txt2); line-height:1.65; margin-bottom:1.2rem; }
+.eco-perks { display:flex; flex-direction:column; gap:.4rem; }
+.eco-perk { font-size:.8rem; color:var(--txt2); display:flex; align-items:center; gap:.5rem; }
+.eco-perk::before { content:'→'; font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--txt3); flex-shrink:0; }
+.eco-url { font-family:'JetBrains Mono',monospace; font-size:.68rem; color:var(--txt3); letter-spacing:.06em; display:flex; align-items:center; gap:.4rem; transition:color .2s; margin-top:1.2rem; }
+.eco-card:hover .eco-url { color:var(--cyan); }
+
+/* TOKENOMICS */
+.tok-section { background:var(--bg); }
+.tok-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; margin-top:3rem; }
+.donut-wrap { position:relative; display:flex; align-items:center; justify-content:center; }
+.donut-center { position:absolute; text-align:center; }
+.donut-n { font-family:'Bebas Neue',sans-serif; font-size:1.8rem; color:#fff; display:block; letter-spacing:.05em; }
+.donut-l { font-family:'JetBrains Mono',monospace; font-size:.58rem; color:var(--txt3); letter-spacing:.1em; }
+
+.tok-list { display:flex; flex-direction:column; gap:.8rem; }
+.tok-row { display:flex; align-items:center; gap:1rem; padding:.9rem 1.1rem; background:var(--surf); border:1px solid var(--line); border-radius:6px; transition:all .3s; cursor:default; }
+.tok-row:hover { border-color:var(--line2); transform:translateX(4px); background:var(--surf2); }
+.tok-dot { width:9px;height:9px;border-radius:50%;flex-shrink:0; }
+.tok-info { flex:1; }
+.tok-nm { font-size:.83rem; color:var(--txt); font-weight:500; margin-bottom:.1rem; }
+.tok-dt { font-family:'JetBrains Mono',monospace; font-size:.6rem; color:var(--txt3); }
+.tok-pct { font-family:'Bebas Neue',sans-serif; font-size:1.3rem; color:#fff; letter-spacing:.05em; }
+
+.rounds { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:3rem; }
+.round { background:var(--surf); border:1px solid var(--line); border-radius:8px; padding:1.8rem; text-align:center; transition:all .3s; }
+.round.hot { border-color:var(--cyan); box-shadow:0 0 28px rgba(0,212,255,.12); }
+.round:hover { transform:translateY(-4px); box-shadow:0 20px 40px rgba(0,0,0,.4); }
+.r-badge { font-family:'JetBrains Mono',monospace; font-size:.58rem; letter-spacing:.15em; padding:.2rem .65rem; border-radius:2px; margin-bottom:.9rem; display:inline-block; }
+.r-badge.open   { background:rgba(0,229,160,.12); color:var(--green); border:1px solid rgba(0,229,160,.28); }
+.r-badge.soon   { background:rgba(0,212,255,.1); color:var(--cyan); border:1px solid rgba(0,212,255,.28); }
+.r-badge.future { background:rgba(74,88,120,.12); color:var(--txt3); border:1px solid var(--line); }
+.r-name { font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:.06em; color:#fff; margin-bottom:.4rem; }
+.r-price { font-family:'Bebas Neue',sans-serif; font-size:2rem; letter-spacing:.04em; background:linear-gradient(135deg,var(--blue2),var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:.25rem; }
+.r-disc { font-family:'JetBrains Mono',monospace; font-size:.65rem; color:var(--green); margin-bottom:.9rem; }
+.r-sup { font-size:.78rem; color:var(--txt3); }
+
+.hdiv { height:1px; background:linear-gradient(90deg,transparent,var(--line2),transparent); margin:3rem 0; }
+
+/* ROADMAP */
+.rm-section { background:var(--bg2); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.rm-track { position:relative; margin-top:3.5rem; padding-left:1.8rem; }
+.rm-track::before { content:''; position:absolute; left:0; top:0; bottom:0; width:1px; background:linear-gradient(to bottom, var(--blue), var(--cyan), var(--green), rgba(74,88,120,.2)); }
+.rm-item { position:relative; padding:0 0 2.8rem 2.8rem; }
+.rm-dot { position:absolute; left:-5.5px; top:5px; width:12px;height:12px; border-radius:50%; border:2px solid var(--bg2); }
+.rm-item.done   .rm-dot { background:var(--green); box-shadow:0 0 10px var(--green); }
+.rm-item.active .rm-dot { background:var(--cyan); box-shadow:0 0 14px var(--cyan); animation:blink 2s infinite; }
+.rm-item.next   .rm-dot { background:var(--blue2); box-shadow:0 0 8px var(--blue); }
+.rm-item.future .rm-dot { background:var(--surf2); border-color:var(--line2); }
+.rm-phase { font-family:'JetBrains Mono',monospace; font-size:.6rem; letter-spacing:.18em; color:var(--cyan); margin-bottom:.25rem; }
+.rm-title { font-family:'Bebas Neue',sans-serif; font-size:1.15rem; letter-spacing:.06em; color:#fff; margin-bottom:.7rem; }
+.rm-checks { display:flex; flex-direction:column; gap:.35rem; }
+.rm-check { font-size:.83rem; color:var(--txt2); display:flex; align-items:flex-start; gap:.5rem; }
+.rm-check::before { content:'→'; font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--txt3); flex-shrink:0; margin-top:1px; }
+.rm-item.done   .rm-check::before { content:'✓'; color:var(--green); }
+.rm-item.active .rm-check::before { content:'▶'; color:var(--cyan); }
+
+/* FORM */
+.form-section { background:var(--bg); }
+.form-wrap { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:start; margin-top:3rem; }
+.info-cards { display:flex; flex-direction:column; gap:1rem; }
+.info-card { display:flex; gap:1rem; padding:1.1rem; background:var(--surf); border:1px solid var(--line); border-radius:6px; }
+.ic-icon { font-size:1.4rem; width:42px;height:42px; display:flex; align-items:center; justify-content:center; background:var(--surf2); border-radius:8px; flex-shrink:0; }
+.ic-text h4 { font-family:'Bebas Neue',sans-serif; letter-spacing:.06em; font-size:.95rem; color:#fff; margin-bottom:.2rem; }
+.ic-text p { font-size:.78rem; color:var(--txt2); line-height:1.55; }
+.c-form { background:var(--surf); border:1px solid var(--line); border-radius:10px; padding:2rem; }
+.c-form h3 { font-family:'Bebas Neue',sans-serif; letter-spacing:.08em; font-size:1.3rem; color:#fff; margin-bottom:1.4rem; }
+.fg { margin-bottom:1.1rem; }
+.fg label { display:block; font-family:'JetBrains Mono',monospace; font-size:.62rem; letter-spacing:.12em; color:var(--txt3); margin-bottom:.35rem; }
+.fg input, .fg select, .fg textarea { width:100%; background:var(--bg2); border:1px solid var(--line); border-radius:3px; padding:.7rem .9rem; color:var(--txt); font-family:'DM Sans',sans-serif; font-size:.87rem; transition:border-color .2s, box-shadow .2s; outline:none; -webkit-appearance:none; }
+.fg input:focus, .fg select:focus, .fg textarea:focus { border-color:var(--cyan); box-shadow:0 0 0 3px rgba(0,212,255,.08); }
+.fg textarea { resize:vertical; min-height:85px; }
+.fg select option { background:var(--bg2); }
+.btn-form { width:100%; background:linear-gradient(135deg,var(--blue),var(--cyan)); color:#fff; border:none; padding:.85rem; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:.78rem; letter-spacing:.12em; font-weight:700; cursor:pointer; transition:all .3s; box-shadow:0 0 18px var(--glow-b); }
+.btn-form:hover { box-shadow:0 0 36px var(--glow-b); transform:translateY(-2px); }
+
+/* WHITEPAPER */
+.wp-section { background:radial-gradient(ellipse at center,rgba(29,92,255,.07) 0%,transparent 65%),var(--bg2); border-top:1px solid var(--line); border-bottom:1px solid var(--line); text-align:center; }
+.wp-cards { display:flex; gap:1.5rem; justify-content:center; margin-top:3rem; flex-wrap:wrap; }
+.wp-card { display:flex; align-items:center; gap:1.8rem; background:var(--surf); border:1px solid var(--line2); border-radius:10px; padding:2rem 2.5rem; text-decoration:none; transition:all .3s; flex:1; min-width:280px; max-width:420px; }
+.wp-card:hover { border-color:var(--cyan); box-shadow:0 0 40px rgba(0,212,255,.12),0 20px 40px rgba(0,0,0,.3); transform:translateY(-4px); }
+.wp-ico { font-size:2.5rem; width:68px;height:68px; display:flex; align-items:center; justify-content:center; border-radius:14px; flex-shrink:0; }
+.wp-card.en .wp-ico { background:linear-gradient(135deg,var(--blue),var(--cyan)); box-shadow:0 0 24px var(--glow-b); }
+.wp-card.es .wp-ico { background:linear-gradient(135deg,#c0392b,#e74c3c); box-shadow:0 0 20px rgba(192,57,43,.35); }
+.wp-info { text-align:left; }
+.wp-title { font-family:'Bebas Neue',sans-serif; letter-spacing:.08em; font-size:1.2rem; color:#fff; margin-bottom:.25rem; }
+.wp-meta { font-family:'JetBrains Mono',monospace; font-size:.6rem; color:var(--txt3); letter-spacing:.08em; margin-bottom:.5rem; }
+.wp-desc { font-size:.8rem; color:var(--txt2); }
+
+/* SOCIALS */
+.soc-section { padding:3rem 2rem 5rem; }
+.soc-row { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:2rem; }
+.soc-btn { display:inline-flex; align-items:center; gap:.6rem; padding:.65rem 1.3rem; border:1px solid var(--line); border-radius:3px; text-decoration:none; font-family:'JetBrains Mono',monospace; font-size:.7rem; letter-spacing:.08em; color:var(--txt2); background:var(--surf); transition:all .2s; }
+.soc-btn:hover { border-color:var(--line2); color:#fff; transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,.3); }
+.soc-btn.tw:hover { border-color:#1d9bf0; box-shadow:0 8px 20px rgba(29,155,240,.18); }
+.soc-btn.gh:hover { border-color:#f0f6fc; }
+.soc-btn.ss:hover { border-color:var(--cyan); box-shadow:0 8px 20px var(--glow-c); }
+
+footer { border-top:1px solid var(--line); padding:2.5rem 2rem; text-align:center; }
+.ft-logo { font-family:'Bebas Neue',sans-serif; font-size:1.4rem; letter-spacing:.2em; color:#fff; margin-bottom:.7rem; }
+.ft-mint { font-family:'JetBrains Mono',monospace; font-size:.55rem; color:var(--txt3); letter-spacing:.05em; margin-bottom:.9rem; word-break:break-all; }
+.ft-disc { font-size:.72rem; color:var(--txt3); max-width:580px; margin:0 auto .9rem; line-height:1.65; }
+.ft-copy { font-family:'JetBrains Mono',monospace; font-size:.6rem; color:var(--txt3); letter-spacing:.05em; }
+
+.reveal { opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+@media(max-width:900px) {
+  nav { padding:1rem 1.5rem; }
+  .nav-links { display:none; }
+  .eco-grid,.tok-grid,.rounds,.form-wrap { grid-template-columns:1fr; }
+  .hero-stats { gap:1.8rem; }
+  .wp-card { max-width:100%; }
+}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<nav>
+  <a href="#" class="logo"><div class="logo-pulse"></div>SYSTEMEX</a>
+  <ul class="nav-links">
+    <li><a href="#ecosystem">Ecosystem</a></li>
+    <li><a href="#tokenomics">Tokenomics</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact" class="nav-btn">PRESALE →</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div>
+    <div class="badge">LIVE ON SOLANA MAINNET</div>
+    <h1 class="hero-title">
+      <span class="t1">TOKENIZE</span>
+      <span class="t2">THE FUTURE</span>
+    </h1>
+    <p class="hero-sub">The blockchain platform connecting real estate, education, and e-commerce in a single tokenized ecosystem on Solana. Invest from USD 1 in real world assets.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-p">⚡ JOIN PRESALE</a>
+      <a href="#whitepaper" class="btn-s">📄 READ WHITEPAPER</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-n">1<span>B</span></div><div class="stat-l">TOTAL SUPPLY</div></div>
+      <div class="stat"><div class="stat-n">$<span>0.0001</span></div><div class="stat-l">LISTING PRICE</div></div>
+      <div class="stat"><div class="stat-n">3<span>+</span></div><div class="stat-l">VERTICALS</div></div>
+      <div class="stat"><div class="stat-n"><span>SOL</span></div><div class="stat-l">BLOCKCHAIN</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="eco-section" id="ecosystem">
+  <div class="container">
+    <div class="sec-label reveal">ECOSYSTEM</div>
+    <h2 class="sec-title reveal">THREE VERTICALS.<br>ONE TOKEN.</h2>
+    <p class="sec-desc reveal">SYSTEMEX connects three real businesses into a single tokenized value layer on Solana.</p>
+    <div class="eco-grid">
+      <a href="https://anperprimo.com" target="_blank" class="eco-card re reveal">
+        <div class="eco-icon">🏠</div>
+        <div class="eco-tag">REAL ESTATE · RWA</div>
+        <div class="eco-name">ANPER PRIMO</div>
+        <div class="eco-desc">Fractional real estate investment tokenized on Solana. Buy property fractions from USD 1, receive monthly USDC rentals automatically via smart contract.</div>
+        <div class="eco-perks">
+          <div class="eco-perk">4-15% annual yield in USD</div>
+          <div class="eco-perk">Liquidity 24/7 on DEX</div>
+          <div class="eco-perk">CNV Argentina compliant (Dec 2025)</div>
+        </div>
+        <div class="eco-url">↗ anperprimo.com</div>
+      </a>
+      <a href="https://inda.edu.uy" target="_blank" class="eco-card edu reveal">
+        <div class="eco-icon">🎓</div>
+        <div class="eco-tag">EDUCATION · UTILITY</div>
+        <div class="eco-name">INDA</div>
+        <div class="eco-desc">Online courses in AI, automation, trading, software development and entrepreneurship. Pay with SYSTEMEX for 30% off. Lifetime access via staking.</div>
+        <div class="eco-perks">
+          <div class="eco-perk">30% discount paying with SYSTEMEX</div>
+          <div class="eco-perk">Lifetime access via staking</div>
+          <div class="eco-perk">Governance: vote new courses</div>
+        </div>
+        <div class="eco-url">↗ inda.edu.uy</div>
+      </a>
+      <a href="https://megamercado.com.ar" target="_blank" class="eco-card ec reveal">
+        <div class="eco-icon">🛒</div>
+        <div class="eco-tag">E-COMMERCE · LOYALTY</div>
+        <div class="eco-name">MEGAMERCADO</div>
+        <div class="eco-desc">E-commerce platform with on-chain loyalty. Earn SYSTEMEX cashback on every purchase. Membership tiers unlock exclusive deals and early access to drops.</div>
+        <div class="eco-perks">
+          <div class="eco-perk">1-5% cashback in SYSTEMEX</div>
+          <div class="eco-perk">Bronze / Silver / Gold / Platinum tiers</div>
+          <div class="eco-perk">Early access to limited drops</div>
+        </div>
+        <div class="eco-url">↗ megamercado.com.ar</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="tok-section" id="tokenomics">
+  <div class="container">
+    <div class="sec-label reveal">TOKENOMICS</div>
+    <h2 class="sec-title reveal">SUPPLY DISTRIBUTION</h2>
+    <p class="sec-desc reveal">1,000,000,000 SYSTEMEX. Fixed supply. Designed for long-term sustainability and incentive alignment.</p>
+    <div class="tok-grid">
+      <div class="donut-wrap reveal">
+        <svg width="290" height="290" viewBox="0 0 290 290">
+          <defs><filter id="glow"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <circle cx="145" cy="145" r="105" fill="none" stroke="#1d5cff" stroke-width="30" stroke-dasharray="165 494" stroke-dashoffset="0" filter="url(#glow)"/>
+          <circle cx="145" cy="145" r="105" fill="none" stroke="#00d4ff" stroke-width="30" stroke-dasharray="132 527" stroke-dashoffset="-165"/>
+          <circle cx="145" cy="145" r="105" fill="none" stroke="#00e5a0" stroke-width="30" stroke-dasharray="99 560" stroke-dashoffset="-297"/>
+          <circle cx="145" cy="145" r="105" fill="none" stroke="#7c4dff" stroke-width="30" stroke-dasharray="99 560" stroke-dashoffset="-396"/>
+          <circle cx="145" cy="145" r="105" fill="none" stroke="#ffb800" stroke-width="30" stroke-dasharray="99 560" stroke-dashoffset="-495"/>
+          <circle cx="145" cy="145" r="105" fill="none" stroke="#2a3a5c" stroke-width="30" stroke-dasharray="66 593" stroke-dashoffset="-594"/>
+        </svg>
+        <div class="donut-center"><span class="donut-n">1B</span><span class="donut-l">SYSTEMEX</span></div>
+      </div>
+      <div class="tok-list reveal">
+        <div class="tok-row"><div class="tok-dot" style="background:#1d5cff;box-shadow:0 0 8px #1d5cff"></div><div class="tok-info"><div class="tok-nm">RWA Real Estate</div><div class="tok-dt">250,000,000 · released per property</div></div><div class="tok-pct">25%</div></div>
+        <div class="tok-row"><div class="tok-dot" style="background:#00d4ff;box-shadow:0 0 8px #00d4ff"></div><div class="tok-info"><div class="tok-nm">Ecosystem / Courses / Ecom</div><div class="tok-dt">200,000,000 · rewards & staking</div></div><div class="tok-pct">20%</div></div>
+        <div class="tok-row"><div class="tok-dot" style="background:#00e5a0;box-shadow:0 0 8px #00e5a0"></div><div class="tok-info"><div class="tok-nm">DEX Liquidity (Raydium)</div><div class="tok-dt">150,000,000 · LP locked 12m</div></div><div class="tok-pct">15%</div></div>
+        <div class="tok-row"><div class="tok-dot" style="background:#7c4dff;box-shadow:0 0 8px #7c4dff"></div><div class="tok-info"><div class="tok-nm">Founder / Team</div><div class="tok-dt">150,000,000 · 24m vesting, 6m cliff</div></div><div class="tok-pct">15%</div></div>
+        <div class="tok-row"><div class="tok-dot" style="background:#ffb800;box-shadow:0 0 8px #ffb800"></div><div class="tok-info"><div class="tok-nm">Presale / IDO</div><div class="tok-dt">150,000,000 · early investors</div></div><div class="tok-pct">15%</div></div>
+        <div class="tok-row"><div class="tok-dot" style="background:#2a3a5c"></div><div class="tok-info"><div class="tok-nm">Marketing + Reserve</div><div class="tok-dt">100,000,000 · treasury</div></div><div class="tok-pct">10%</div></div>
+      </div>
+    </div>
+    <div class="hdiv reveal"></div>
+    <h3 style="font-family:'Bebas Neue',sans-serif;letter-spacing:.06em;font-size:1.6rem;color:#fff;margin-bottom:.6rem" class="reveal">INVESTMENT ROUNDS</h3>
+    <div class="rounds">
+      <div class="round reveal"><div class="r-badge open">OPEN NOW</div><div class="r-name">Private Presale</div><div class="r-price">$0.00005</div><div class="r-disc">▲ 50% discount</div><div class="r-sup">75,000,000 SYSTEMEX available</div></div>
+      <div class="round hot reveal"><div class="r-badge soon">COMING SOON</div><div class="r-name">Public IDO</div><div class="r-price">$0.00008</div><div class="r-disc">▲ 20% discount</div><div class="r-sup">75,000,000 SYSTEMEX available</div></div>
+      <div class="round reveal"><div class="r-badge future">DEX LISTING</div><div class="r-name">Raydium AMM</div><div class="r-price">$0.0001</div><div class="r-disc">Base reference price</div><div class="r-sup">24/7 unrestricted trading</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="rm-section" id="roadmap">
+  <div class="container">
+    <div class="sec-label reveal">ROADMAP</div>
+    <h2 class="sec-title reveal">2026 ROADMAP</h2>
+    <p class="sec-desc reveal">Accelerated execution with concrete, on-chain verifiable milestones.</p>
+    <div class="rm-track">
+      <div class="rm-item done reveal">
+        <div class="rm-dot"></div>
+        <div class="rm-phase">PHASE 0 — Q1 2026</div>
+        <div class="rm-title">FOUNDATIONS</div>
+        <div class="rm-checks">
+          <div class="rm-check">Token deployed on Solana mainnet</div>
+          <div class="rm-check">Metaplex metadata configured</div>
+          <div class="rm-check">Whitepaper v1.0 published (EN + ES)</div>
+          <div class="rm-check">GitHub & website live</div>
+        </div>
+      </div>
+      <div class="rm-item active reveal">
+        <div class="rm-dot"></div>
+        <div class="rm-phase">PHASE 1 — Q1-Q2 2026</div>
+        <div class="rm-title">LAUNCH</div>
+        <div class="rm-checks">
+          <div class="rm-check">Raydium liquidity pool</div>
+          <div class="rm-check">Jupiter Swap listing</div>
+          <div class="rm-check">Private presale completed</div>
+          <div class="rm-check">First property tokenized on Anper Primo</div>
+        </div>
+      </div>
+      <div class="rm-item next reveal">
+        <div class="rm-dot"></div>
+        <div class="rm-phase">PHASE 2 — Q2-Q3 2026</div>
+        <div class="rm-title">GROWTH</div>
+        <div class="rm-checks">
+          <div class="rm-check">5+ tokenized properties</div>
+          <div class="rm-check">INDA course platform live</div>
+          <div class="rm-check">Megamercado integrated</div>
+          <div class="rm-check">CoinGecko listing</div>
+        </div>
+      </div>
+      <div class="rm-item future reveal">
+        <div class="rm-dot"></div>
+        <div class="rm-phase">PHASE 3 — Q3-Q4 2026</div>
+        <div class="rm-title">SCALING</div>
+        <div class="rm-checks">
+          <div class="rm-check">10+ assets under management</div>
+          <div class="rm-check">Smart contract audit</div>
+          <div class="rm-check">Real estate partnerships AR</div>
+          <div class="rm-check">Latam expansion</div>
+        </div>
+      </div>
+      <div class="rm-item future reveal">
+        <div class="rm-dot"></div>
+        <div class="rm-phase">PHASE 4 — 2027+</div>
+        <div class="rm-title">MATURITY</div>
+        <div class="rm-checks">
+          <div class="rm-check">iOS / Android mobile app</div>
+          <div class="rm-check">CNV digital integration</div>
+          <div class="rm-check">RWA secondary market</div>
+          <div class="rm-check">Real yield staking</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="form-section" id="contact">
+  <div class="container">
+    <div class="sec-label reveal">TOKENIZE YOUR PROPERTY</div>
+    <h2 class="sec-title reveal">OWN A REAL ASSET?</h2>
+    <p class="sec-desc reveal">Join Systemex as a property owner and raise capital from global investors without selling your asset.</p>
+    <div class="form-wrap">
+      <div class="info-cards reveal">
+        <div class="info-card"><div class="ic-icon">🏠</div><div class="ic-text"><h4>ANY ASSET TYPE</h4><p>Apartments, land, commercial spaces, pre-construction projects or agricultural properties.</p></div></div>
+        <div class="info-card"><div class="ic-icon">⚡</div><div class="ic-text"><h4>FAST PROCESS</h4><p>From documentation to investment round launch in 2 to 4 weeks with full support.</p></div></div>
+        <div class="info-card"><div class="ic-icon">🌍</div><div class="ic-text"><h4>GLOBAL INVESTORS</h4><p>Access investors worldwide operating 24/7 on Solana without banking restrictions.</p></div></div>
+        <div class="info-card"><div class="ic-icon">⚖️</div><div class="ic-text"><h4>SECURE LEGAL STRUCTURE</h4><p>Trust or SAS per asset. CNV Argentina regulatory framework (December 2025).</p></div></div>
+      </div>
+      <div class="c-form reveal">
+        <h3>GET IN TOUCH</h3>
+        <div class="fg"><label>FULL NAME</label><input type="text" placeholder="Your name"></div>
+        <div class="fg"><label>EMAIL</label><input type="email" placeholder="you@email.com"></div>
+        <div class="fg"><label>ASSET TYPE</label><select><option value="" disabled selected>Select asset type</option><option>Rental apartment</option><option>Urban land</option><option>Commercial property</option><option>Pre-construction project</option><option>Agricultural land</option><option>Other</option></select></div>
+        <div class="fg"><label>ESTIMATED VALUE (USD)</label><input type="text" placeholder="e.g. 80000"></div>
+        <div class="fg"><label>MESSAGE</label><textarea placeholder="Tell us about your property: location, legal status, rental income..."></textarea></div>
+        <button class="btn-form" onclick="handleSubmit()">SEND INQUIRY →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wp-section" id="whitepaper">
+  <div class="container">
+    <div class="sec-label reveal" style="justify-content:center">DOCUMENTATION</div>
+    <h2 class="sec-title reveal" style="text-align:center">WHITEPAPER</h2>
+    <p class="sec-desc reveal" style="margin:0 auto;text-align:center">Full technical, economic and legal documentation of the Systemex ecosystem.</p>
+    <div class="wp-cards">
+      <a href="https://github.com/exeandino/systemex/blob/main/Systemex_Whitepaper_v1.0.md" target="_blank" class="wp-card en reveal">
+        <div class="wp-ico">📄</div>
+        <div class="wp-info">
+          <div class="wp-title">Whitepaper v1.0</div>
+          <div class="wp-meta">ENGLISH · FEBRUARY 2026 · MAIN</div>
+          <div class="wp-desc">Tokenomics, roadmap, legal model, technology and full financial projections.</div>
+        </div>
+      </a>
+      <a href="https://github.com/exeandino/systemex/blob/main/Systemex_Whitepaper_v1.0_ES.md" target="_blank" class="wp-card es reveal">
+        <div class="wp-ico">📄</div>
+        <div class="wp-info">
+          <div class="wp-title">Whitepaper v1.0</div>
+          <div class="wp-meta">ESPAÑOL · FEBRERO 2026</div>
+          <div class="wp-desc">Tokenomics, roadmap, estructura legal, tecnología y proyecciones completas.</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="soc-section">
+  <div class="container" style="text-align:center">
+    <div class="sec-label reveal" style="justify-content:center">COMMUNITY</div>
+    <h2 class="sec-title reveal" style="font-size:2rem">FOLLOW & JOIN</h2>
+    <div class="soc-row reveal">
+      <a href="https://x.com/ExeAndino" target="_blank" class="soc-btn tw">𝕏 @ExeAndino</a>
+      <a href="https://github.com/exeandino/systemex" target="_blank" class="soc-btn gh">⌥ GitHub</a>
+      <a href="https://solscan.io/token/FhhS9QQX5t7JEFHg5Egqq8YNU23NJpQdrSyUTMejwGqt" target="_blank" class="soc-btn ss">◎ Solscan</a>
+      <a href="https://anperprimo.com" target="_blank" class="soc-btn">🏠 Anper Primo</a>
+      <a href="https://inda.edu.uy" target="_blank" class="soc-btn">🎓 INDA</a>
+      <a href="https://megamercado.com.ar" target="_blank" class="soc-btn">🛒 Megamercado</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-logo">SYSTEMEX</div>
+  <div class="ft-mint">Mint: FhhS9QQX5t7JEFHg5Egqq8YNU23NJpQdrSyUTMejwGqt</div>
+  <p class="ft-disc">This site is informational and does not constitute a public offering of securities. Investing in crypto assets involves risk. Consult a qualified advisor before making investment decisions.</p>
+  <div class="ft-copy">© 2026 SYSTEMEX — SYSTEMEX.COM.AR — ALL RIGHTS RESERVED</div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+function handleSubmit() {
+  const btn = document.querySelector('.btn-form');
+  btn.textContent = '✓ MESSAGE SENT';
+  btn.style.background = 'linear-gradient(135deg,#00e5a0,#00d4ff)';
+  btn.style.boxShadow = '0 0 28px rgba(0,229,160,.4)';
+  setTimeout(() => { btn.textContent = 'SEND INQUIRY →'; btn.style.background=''; btn.style.boxShadow=''; }, 3000);
+}
+</script>
+</body>
+</html>

@@ -1,10 +1,24 @@
 {
-  "name": "Systemex Ecosystem Token",
+  "name": "Systemex",
   "symbol": "SYSTEMEX",
-  "description": "Ecosystem token for Systemex projects in the real estate sector and AI agents.",
+  "description": "Systemex es la plataforma blockchain que integra tokenización inmobiliaria (RWA), educación online y e-commerce en un solo ecosistema. Utilidad real + rentabilidad pasiva.",
   "image": "https://raw.githubusercontent.com/exeandino/systemex/main/systemex.png",
-  "external_url": "",
-  "attributes": [],
+  "external_url": "https://systemex.com.ar",
+  "extensions": {
+    "website": "https://systemex.com.ar",
+    "twitter": "https://x.com/ExeAndino",
+    "telegram": ""
+  },
+  "attributes": [
+    {
+      "trait_type": "Category",
+      "value": "Ecosystem"
+    },
+    {
+      "trait_type": "Type",
+      "value": "Utility + RWA"
+    }
+  ],
   "properties": {
     "files": [
       {
